@@ -85,7 +85,7 @@ namespace API.Controllers
     //   Use to register a new customer
         [HttpPost("register")]
         public async Task<ActionResult<UserDTO>> Register(RegisterDTO registerDTO){  
-            if(CheckEmail(registerDTO.Email).Result.Value)
+            if(CheckEmail(registerDTO.email).Result.Value)
             {
                 return new BadRequestObjectResult(
                     new ValidationErrors{Errors = 
@@ -93,21 +93,21 @@ namespace API.Controllers
             }
 
              var user = new User{
-                        nickName = registerDTO.NickName,
-                        Email = registerDTO.Email,
-                        UserName = registerDTO.Email,
+                        nickName = registerDTO.nickName,
+                        Email = registerDTO.email,
+                        UserName = registerDTO.email,
                             address = new Address{
-                                    FirstName=registerDTO.FirstName,
-                                    MiddleName=registerDTO.MiddleName,
-                                    LastName=registerDTO.LastName,
-                                    Street=registerDTO.Street,
-                                    City=registerDTO.City,
-                                    Country=registerDTO.Country,
-                                    Zipcode=registerDTO.Zipcode,
-                                    Phone=registerDTO.Phone
+                                    firstName=registerDTO.firstName,
+                                    middleName=registerDTO.middleName,
+                                    lastName=registerDTO.lastName,
+                                    street=registerDTO.street,
+                                    city=registerDTO.city,
+                                    country=registerDTO.country,
+                                    zipcode=registerDTO.zipcode,
+                                    phone=registerDTO.phone
                         }};
                 
-            var result = await _userManager.CreateAsync(user, registerDTO.Password);       
+            var result = await _userManager.CreateAsync(user, registerDTO.password);       
             if(!result.Succeeded) return Unauthorized(new Responses(401));
             return new UserDTO {
                 nickName = user.nickName,

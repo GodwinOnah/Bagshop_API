@@ -34,6 +34,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddControllers();
+// builder.Services.AddMvc(options => options.EnableEndpointRouting = false);
 builder.Services.AddDbContext<storeProducts>(
                 x=>x.UseSqlite(builder.Configuration
                 .GetConnectionString("DefaultConnection"),
@@ -97,6 +98,7 @@ app.UseSwaggerDocumentation(); //the cusomized middleware from swagger extention
 app.UseStaticFiles();
 
 app.UseCors("AllowAccess_To_API");//cors
+
 
 app.UseHttpsRedirection();
 
