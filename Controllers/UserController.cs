@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System;
+using core.Entities.DTOs;
 
 namespace API.Controllers
 {
@@ -38,17 +39,15 @@ namespace API.Controllers
             var user = await _userManager.FindByEmailByClaimPrinciple(User);
             Console.WriteLine("\n\n\n\n"+user+57+"\n\n\n\n");
             return new UserDTO {
-                nickName = user.nickName,
-                email = user.Email,
-                token =  _tokenService.createToken(user)
+                NickName = user.nickName,
+                Email = user.Email,
+                Token =  _tokenService.createToken(user)
             };}
 
         // [Authorize]
         [HttpGet("address")]
         public async Task<ActionResult<AddressDTO>> GetAddress(){
             var user = await _userManager.FindUserByClaimPrincipleWIthAddress(User);
-            // user null, therefore causing system error
-            // Console.WriteLine("\n\n\n\n"+user+66+"\n\n\n\n");
             return _mapper.Map<Address,AddressDTO>(user.address);
             }
 
@@ -77,10 +76,35 @@ namespace API.Controllers
             var result = await  _signInManager.CheckPasswordSignInAsync(user,loginDTO.password,false);
             if(!result.Succeeded) return Unauthorized(new Responses(401));
             return new UserDTO {
-                nickName = user.nickName,
-                email = user.Email,
-                token =  _tokenService.createToken(user)
+                NickName = user.nickName,
+                Email = user.Email,
+                Token =  _tokenService.createToken(user)
             };}
+
+        [HttpPut("forgotpasswrd")]
+        public async Task<ActionResult<UserDTO>> UpdatePassword(ForgotPassDetail  forgotPassDetail){
+            
+            var user = await _userManager.FindByEmailAsync(forgotPassDetail.Email);
+            if(user == null) return Unauthorized(new Responses(401));
+           
+
+            if(forgotPassDetail.Password1 == forgotPassDetail.Password2){
+            user.PasswordHash = _userManager.PasswordHasher.HashPassword(user,forgotPassDetail.Password1);
+             var result = await _userManager.UpdateAsync(user);
+             
+            if(!result.Succeeded) return Unauthorized(new Responses(401));
+            return new UserDTO {
+                NickName = user.nickName,
+                Email = user.Email,
+                Token =  _tokenService.createToken(user)
+            };
+            } 
+            else{
+                return Unauthorized(new Responses(401));
+            }
+            
+            }     
+        
       
     //   Use to register a new customer
         [HttpPost("register")]
@@ -96,7 +120,7 @@ namespace API.Controllers
                         nickName = registerDTO.nickName,
                         Email = registerDTO.email,
                         UserName = registerDTO.email,
-                            address = new Address{
+                        address = new Address{
                                     firstName=registerDTO.firstName,
                                     middleName=registerDTO.middleName,
                                     lastName=registerDTO.lastName,
@@ -110,7 +134,7 @@ namespace API.Controllers
             var result = await _userManager.CreateAsync(user, registerDTO.password);       
             if(!result.Succeeded) return Unauthorized(new Responses(401));
             return new UserDTO {
-                nickName = user.nickName,
-                email = user.Email,
-                token = _tokenService.createToken(user)    
+                NickName = user.nickName,
+                Email = user.Email,
+                Token = _tokenService.createToken(user)    
             };}}}

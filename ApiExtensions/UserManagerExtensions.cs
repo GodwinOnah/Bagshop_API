@@ -16,10 +16,9 @@ namespace API.ApiErrorMiddleWares
         public static async Task<User> FindUserByClaimPrincipleWIthAddress
         (this UserManager<User> userManager, ClaimsPrincipal user )
         {
-            Console.WriteLine("\n\n\n\n"+user+55+"\n\n\n\n");
                 var email = user.FindFirstValue(ClaimTypes.Email);
                 return await userManager.Users.Include(x=>x.address)
-                        .SingleOrDefaultAsync(x=>x.Email=="dan@gmail.com");
+                        .SingleOrDefaultAsync(x=>x.Email=="bisi@gmail.com");
         }
 
         public static async Task<User> FindByEmailByClaimPrinciple
