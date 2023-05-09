@@ -31,7 +31,7 @@ namespace API.AutoMapper
               .ForMember(d=>d.delivery,o=>o.MapFrom(s=>s.delivery.delPrice));
 
                CreateMap<ItemOrdered, ItemOrderedDTO>()
-               .ForMember(d=>d.productId,o=>o.MapFrom(s=>s.itemOrdered.productId))
+               .ForMember(d=>d.id,o=>o.MapFrom(s=>s.itemOrdered.id))
                .ForMember(d=>d.prodName,o=>o.MapFrom(s=>s.itemOrdered.prodName))
                .ForMember(d=>d.prodPicture,o=>o.MapFrom(s=>s.itemOrdered.prodPicture))
                .ForMember(x=>x.prodPicture,y=>y.MapFrom<OrderPictureUrlResolver>());;

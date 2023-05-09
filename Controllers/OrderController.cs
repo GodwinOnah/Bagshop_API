@@ -44,10 +44,10 @@ namespace API.Controllers
 
         //  var user = await _userManager.FindByEmailAsync(emaili);
 
-            var email = HttpContext.User.getEmailfromPrincipleClaims();
-            //  Console.WriteLine("\n\n\norder11"+email+"\n\n\n");
+            // var email = HttpContext.User.getEmailfromPrincipleClaims();
+             Console.WriteLine("\n\n\norder11"+34444+"\n\n\n");
            
-            // var email ="dan@gmail.com";
+            var email ="dan@gmail.com";
             var address = _mapper.Map<AddressDTO, ShippingAddress>(orderDTO.shippingAddress);
             var order = await _iOrders.CreateOrdersAsync(email, orderDTO.basketId,
             orderDTO.deliveryId,address); 
@@ -67,8 +67,8 @@ namespace API.Controllers
         // var tokenClaims = new JwtSecurityToken(token.Replace("Bearer ", string.Empty));
         //  var email = tokenClaims.Payload["email"].ToString();
         
-            var email = HttpContext.User.getEmailfromPrincipleClaims();
-            // var email ="dan@gmail.com";
+            // var email = HttpContext.User.getEmailfromPrincipleClaims();
+            var email ="dan@gmail.com";
             //  Console.WriteLine("\n\n\n\n\n"+2222+"\n\n\n\n\n");
             var orders = await  _iOrders.GetOrdersAsync(email);
             

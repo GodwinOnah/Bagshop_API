@@ -106,3 +106,5 @@
 /Users/godwinonah/Documents/TheBags/BagShop-API/API/obj/Debug/net7.0/API.pdb
 /Users/godwinonah/Documents/TheBags/BagShop-API/API/obj/Debug/net7.0/API.genruntimeconfig.cache
 /Users/godwinonah/Documents/TheBags/BagShop-API/API/obj/Debug/net7.0/ref/API.dll
+/Users/godwinonah/Documents/TheBags/BagShop-API/API/bin/Debug/net7.0/Npgsql.dll
+/Users/godwinonah/Documents/TheBags/BagShop-API/API/bin/Debug/net7.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll

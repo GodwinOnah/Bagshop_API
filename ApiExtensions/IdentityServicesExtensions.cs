@@ -17,7 +17,7 @@ namespace API.ApiExtensions
 
             services.AddDbContext<UserIdentityDbContext>(opt=>
                         {
-                            opt.UseSqlite(config.GetConnectionString("IdentityConnection"), 
+                            opt.UseNpgsql(config.GetConnectionString("IdentityConnection"), 
                             b => b.MigrationsAssembly("infrastructure"));                        
                         });
 

@@ -11,8 +11,8 @@ namespace API.Controllers
 {
     public class ApiErrorsController: ApiControllerBase
     {
-        private readonly storeProducts _context;
-        public ApiErrorsController(storeProducts context)
+        private readonly productContext _context;
+        public ApiErrorsController(productContext context)
         {
             _context = context;
         }

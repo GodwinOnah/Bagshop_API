@@ -26,6 +26,8 @@ using Microsoft.Extensions.Logging;
 using core.Entities.Identity;
 using System;
 using infrastructure.Identity;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,8 +37,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 // builder.Services.AddMvc(options => options.EnableEndpointRouting = false);
-builder.Services.AddDbContext<storeProducts>(
-                x=>x.UseSqlite(builder.Configuration
+builder.Services.AddDbContext<productContext>(
+                x=>x.UseNpgsql(builder.Configuration
                 .GetConnectionString("DefaultConnection"),
                 x => x.MigrationsHistoryTable("_EFMigrationsHistory")));
 
@@ -95,7 +97,14 @@ app.UseStatusCodePagesWithReExecute("/error/{0}");//use for redirecting error no
 
 app.UseSwaggerDocumentation(); //the cusomized middleware from swagger extention created
 
-app.UseStaticFiles();
+app.UseStaticFiles();//where to get static files, e.g images
+app.UseStaticFiles(
+    new StaticFileOptions{
+    FileProvider = new PhysicalFileProvider
+    (Path.Combine(Directory.GetCurrentDirectory(),"files")), 
+    RequestPath = "/files"
+}
+);
 
 app.UseCors("AllowAccess_To_API");//cors
 
@@ -111,6 +120,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapFallbackToController("index","fallback");
 
 //this code creates the databases
 using (var scope=app.Services.CreateScope()){//Contains all database configurations to create migrations
@@ -118,7 +128,7 @@ using (var scope=app.Services.CreateScope()){//Contains all database configurati
     var services=scope.ServiceProvider;
 
     var loggerFactory=services.GetRequiredService<ILoggerFactory>();
-     var context=services.GetRequiredService<storeProducts>();
+     var context=services.GetRequiredService<productContext>();
       var identityContext=services.GetRequiredService<UserIdentityDbContext>();
        var userManager=services.GetRequiredService<UserManager<User>>();
 

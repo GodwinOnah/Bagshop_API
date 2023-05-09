@@ -37,9 +37,8 @@ namespace API.Controllers
         public async Task<ActionResult<UserDTO>> GetCurrentUser(){
             // Console.WriteLine("\n\n\n\n"+User+"\n\n\n\n");     
             var user = await _userManager.FindByEmailByClaimPrinciple(User);
-            Console.WriteLine("\n\n\n\n"+user+57+"\n\n\n\n");
             return new UserDTO {
-                NickName = user.nickName,
+                NickName = user.NickName,
                 Email = user.Email,
                 Token =  _tokenService.createToken(user)
             };}
@@ -72,29 +71,29 @@ namespace API.Controllers
          [HttpPost("login")]
         public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDTO){                  
             var user = await _userManager.FindByEmailAsync(loginDTO.email);
+
             if(user == null) return Unauthorized(new Responses(401));
             var result = await  _signInManager.CheckPasswordSignInAsync(user,loginDTO.password,false);
+            
             if(!result.Succeeded) return Unauthorized(new Responses(401));
             return new UserDTO {
-                NickName = user.nickName,
+                NickName = user.NickName,
                 Email = user.Email,
                 Token =  _tokenService.createToken(user)
             };}
 
         [HttpPut("forgotpasswrd")]
-        public async Task<ActionResult<UserDTO>> UpdatePassword(ForgotPassDetail  forgotPassDetail){
-            
+        public async Task<ActionResult<UserDTO>> UpdatePassword(ForgotPassDetail  forgotPassDetail){  
             var user = await _userManager.FindByEmailAsync(forgotPassDetail.Email);
             if(user == null) return Unauthorized(new Responses(401));
-           
-
+        
             if(forgotPassDetail.Password1 == forgotPassDetail.Password2){
             user.PasswordHash = _userManager.PasswordHasher.HashPassword(user,forgotPassDetail.Password1);
              var result = await _userManager.UpdateAsync(user);
              
             if(!result.Succeeded) return Unauthorized(new Responses(401));
             return new UserDTO {
-                NickName = user.nickName,
+                NickName = user.NickName,
                 Email = user.Email,
                 Token =  _tokenService.createToken(user)
             };
@@ -117,7 +116,7 @@ namespace API.Controllers
             }
 
              var user = new User{
-                        nickName = registerDTO.nickName,
+                        NickName = registerDTO.nickName,
                         Email = registerDTO.email,
                         UserName = registerDTO.email,
                         address = new Address{
@@ -134,7 +133,7 @@ namespace API.Controllers
             var result = await _userManager.CreateAsync(user, registerDTO.password);       
             if(!result.Succeeded) return Unauthorized(new Responses(401));
             return new UserDTO {
-                NickName = user.nickName,
+                NickName = user.NickName,
                 Email = user.Email,
                 Token = _tokenService.createToken(user)    
             };}}}

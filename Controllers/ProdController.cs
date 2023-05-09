@@ -50,12 +50,12 @@ namespace API.Controllers
         }
 
         // [Cashing(600)]
-        [HttpGet("{productId}")]// Notice the curly braces
+        [HttpGet("{id}")]// Notice the curly braces
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Responses),StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ProductsShapedObject>> GetProducts(int productId)
+        public async Task<ActionResult<ProductsShapedObject>> GetProducts(int id)
         {
-            var specification = new GetProductsWithBrandAndType(productId);
+            var specification = new GetProductsWithBrandAndType(id);
             var product = await _products.GetProductsWithSpecification(specification);
             if(product==null) return NotFound(new Responses(400));
             return _imapper.Map<Products,ProductsShapedObject>(product);

@@ -18,7 +18,7 @@ namespace API.ApiErrorMiddleWares
         {
                 var email = user.FindFirstValue(ClaimTypes.Email);
                 return await userManager.Users.Include(x=>x.address)
-                        .SingleOrDefaultAsync(x=>x.Email=="bisi@gmail.com");
+                        .SingleOrDefaultAsync(x=>x.Email=="james@gmail.com");
         }
 
         public static async Task<User> FindByEmailByClaimPrinciple
