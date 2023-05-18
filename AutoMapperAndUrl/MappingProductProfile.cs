@@ -7,6 +7,7 @@ using API.DTOs;
 using AutoMapper;
 using core;
 using core.Controllers;
+using core.Entities.DTOs;
 using core.Entities.Identity;
 using core.Entities.Oders;
 
@@ -34,7 +35,16 @@ namespace API.AutoMapper
                .ForMember(d=>d.id,o=>o.MapFrom(s=>s.itemOrdered.id))
                .ForMember(d=>d.prodName,o=>o.MapFrom(s=>s.itemOrdered.prodName))
                .ForMember(d=>d.prodPicture,o=>o.MapFrom(s=>s.itemOrdered.prodPicture))
-               .ForMember(x=>x.prodPicture,y=>y.MapFrom<OrderPictureUrlResolver>());;
-        }
+               .ForMember(x=>x.prodPicture,y=>y.MapFrom<OrderPictureUrlResolver>());
+
+        //        CreateMap<ProductDetails, Products>()
+        //        .ForMember(d=>d.prodName,o=>o.MapFrom(s=>s.prodName))
+        //        .ForMember(d=>d.prodPicture,o=>o.MapFrom(s=>s.prodPicture))
+        //         .ForMember(d=>d.prodDescription,o=>o.MapFrom(s=>s.prodDescription))
+        //          .ForMember(d=>d.prodPrice,o=>o.MapFrom(s=>s.prodPrice))
+        //           .ForMember(d=>d.productBrand,o=>o.MapFrom(s=>s.productBrand))
+        //            .ForMember(d=>d.productType,o=>o.MapFrom(s=>s.productType));
+               
+         }
     }
 }

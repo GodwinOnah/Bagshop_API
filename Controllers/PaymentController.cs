@@ -23,7 +23,6 @@ namespace API.Controllers
 
         [HttpPost("{basketId}")]
          public async Task<ActionResult<Basket>> CreateOrUpdatePaymentIntent(string basketId){
-            Console.WriteLine("\n\n\n\n"+1234+"\n\n\n\n");
             return await   _payment.CreateOrUpdateIntent(basketId);
          }
 
@@ -31,7 +30,7 @@ namespace API.Controllers
          public async Task<ActionResult> StripeWebhook(){
 
             var json = await new StreamReader(Request.Body).ReadToEndAsync();
-           var stripeEvent = EventUtility.ConstructEvent(
+            var stripeEvent = EventUtility.ConstructEvent(
             json,Request.Headers["Stripe-Signature"],whSecrete);
 
             PaymentIntent intent;

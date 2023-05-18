@@ -22,7 +22,6 @@ namespace API.AutoMapperAndUrl
         {
             if(!string.IsNullOrEmpty(source.prodPicture))
             {
-
                 return _configuration["ApiUrl"]+source.prodPicture;
             }
 

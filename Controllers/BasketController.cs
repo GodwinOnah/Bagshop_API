@@ -27,8 +27,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<Basket>> GetBasketById(string id){
 
-            var basket= await _basket.GetBasketAsync(id);
-            
+            var basket= await _basket.GetBasketAsync(id);           
             return Ok(basket ?? new Basket(id));
 
         }

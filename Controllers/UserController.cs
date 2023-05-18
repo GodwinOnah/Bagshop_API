@@ -31,11 +31,9 @@ namespace API.Controllers
         }
 
         // Use to get a new user
-        
-        [HttpGet]
         // [Authorize]
-        public async Task<ActionResult<UserDTO>> GetCurrentUser(){
-            // Console.WriteLine("\n\n\n\n"+User+"\n\n\n\n");     
+        [HttpGet]
+        public async Task<ActionResult<UserDTO>> GetCurrentUser(){  
             var user = await _userManager.FindByEmailByClaimPrinciple(User);
             return new UserDTO {
                 NickName = user.NickName,
@@ -46,24 +44,25 @@ namespace API.Controllers
         // [Authorize]
         [HttpGet("address")]
         public async Task<ActionResult<AddressDTO>> GetAddress(){
-            var user = await _userManager.FindUserByClaimPrincipleWIthAddress(User);
+            var user = await _userManager.FindUserByClaimsPrincipleWithAddress(User);
             return _mapper.Map<Address,AddressDTO>(user.address);
             }
 
         // [Authorize]
         [HttpPut("address")]
         public async Task<ActionResult<AddressDTO>> UpdateAddress(AddressDTO addressDTO){
-            var user = await _userManager.FindUserByClaimPrincipleWIthAddress(HttpContext.User);
+            var user = await _userManager.FindUserByClaimsPrincipleWithAddress(User);
             user.address = _mapper.Map<AddressDTO,Address>(addressDTO);
             var result = await _userManager.UpdateAsync(user);
-            if(!result.Succeeded) return Ok(_mapper.Map<Address,AddressDTO>(user.address));
+            if(!result.Succeeded) 
+            return Ok(_mapper.Map< Address,AddressDTO>(user.address));
             return BadRequest("Could not update user");
             }
         
         // Check if Email Exist
          [HttpGet("emailexist")]
         public async Task<ActionResult<bool>> CheckEmail([FromQuery] string email){             
-                return await _userManager.FindByEmailAsync(email)!=null;
+            return await _userManager.FindByEmailAsync(email)!=null;
         }
 
         // Use for login
@@ -72,7 +71,8 @@ namespace API.Controllers
         public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDTO){                  
             var user = await _userManager.FindByEmailAsync(loginDTO.email);
 
-            if(user == null) return Unauthorized(new Responses(401));
+            if(user == null) 
+            return Unauthorized(new Responses(401));
             var result = await  _signInManager.CheckPasswordSignInAsync(user,loginDTO.password,false);
             
             if(!result.Succeeded) return Unauthorized(new Responses(401));
@@ -85,8 +85,8 @@ namespace API.Controllers
         [HttpPut("forgotpasswrd")]
         public async Task<ActionResult<UserDTO>> UpdatePassword(ForgotPassDetail  forgotPassDetail){  
             var user = await _userManager.FindByEmailAsync(forgotPassDetail.Email);
-            if(user == null) return Unauthorized(new Responses(401));
-        
+            if(user == null) 
+            return Unauthorized(new Responses(401));    
             if(forgotPassDetail.Password1 == forgotPassDetail.Password2){
             user.PasswordHash = _userManager.PasswordHasher.HashPassword(user,forgotPassDetail.Password1);
              var result = await _userManager.UpdateAsync(user);
@@ -100,10 +100,7 @@ namespace API.Controllers
             } 
             else{
                 return Unauthorized(new Responses(401));
-            }
-            
-            }     
-        
+            }}     
       
     //   Use to register a new customer
         [HttpPost("register")]
@@ -114,7 +111,6 @@ namespace API.Controllers
                     new ValidationErrors{Errors = 
                     new [] {"Sorry!!..Email already in use"}});
             }
-
              var user = new User{
                         NickName = registerDTO.nickName,
                         Email = registerDTO.email,

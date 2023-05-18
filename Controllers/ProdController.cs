@@ -6,8 +6,10 @@ using API.DTOs;
 using API.ErrorsHandlers;
 using AutoMapper;
 using core.Controllers;
+using core.Entities.DTOs;
 using core.Interfaces;
 using core.Specifications;
+using infrastructure.data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,19 +23,60 @@ namespace API.Controllers
         private readonly IgenericInterfaceRepository<ProductBrand> _productBrands;
 
          private readonly IgenericInterfaceRepository<ProductType> _productTypes;
+          private readonly productContext  _context;
+        //  private readonly IProductDetails _productDetails;
 
          private readonly IMapper _imapper;
         
-        public ProductsController(IgenericInterfaceRepository<Products> products,
-                                IgenericInterfaceRepository<ProductBrand> productBrands,
-                                IgenericInterfaceRepository<ProductType> productTypes,
-                                IMapper imapper)
+        public ProductsController(
+            IgenericInterfaceRepository<Products> products,
+            IgenericInterfaceRepository<ProductBrand> productBrands,
+            IgenericInterfaceRepository<ProductType> productTypes,
+            productContext context,
+            // IProductDetails productDetails,
+            IMapper imapper)
                             {
                                 _productTypes = productTypes;
                                 _productBrands = productBrands;
                                 _products = products;
+                                // _productDetails = productDetails;
+                                _context=context;
                             _imapper = imapper;
                             }
+
+        // [HttpPost("upload")] //No curly braces
+        // public async Task<ActionResult<IReadOnlyList<Products>>> UploadProducts(ProductDetails productsDetails)
+        // {
+        //     var productDetails = new ProductDetails{
+        //         prodName = productsDetails.prodName,
+        //         prodPicture = productsDetails.prodPicture,
+        //         prodDescription = productsDetails.prodDescription,
+        //         prodPrice = productsDetails.prodPrice,
+        //         productBrand = productsDetails.productBrand,
+        //         productType = productsDetails.productType
+        //     };
+
+        //     //  var productDetails =   _productDetails.UploadProductAsync(
+        //     //     productsDetails.prodName,
+        //     //    productsDetails.prodPicture,
+        //     //    productsDetails.prodDescription,
+        //     //     productsDetails.prodPrice,
+        //     //     productsDetails.productBrand,
+        //     //     productsDetails.productType
+        //     // );
+
+           
+               
+        //     return await  _imapper.Map<ProductDetails,Products>(productDetails);
+        //     //  if(!_context.Products.Any()){             
+                 
+                             
+        //     //             _context.Products.AddRange(productsDetails.prodName);
+        //     //         }
+        //     //         await _context.SaveChangesAsync();
+        // }          
+
+        
         // [Cashing(600)]
         [HttpGet]
         public async Task<ActionResult<ProductsPagination<ProductsShapedObject>>> GetProducts(
@@ -43,7 +86,7 @@ namespace API.Controllers
              var totalProducts = await _products.CountPage(countPageSpecification);
              var specification = new GetProductsWithBrandAndType(parameters);
              var productsList = await _products.ListAllAsync(specification);
-             var data= _imapper.Map<IReadOnlyList<Products>,
+             var data = _imapper.Map<IReadOnlyList<Products>,
                              IReadOnlyList<ProductsShapedObject>>(productsList);
              return Ok(new ProductsPagination<ProductsShapedObject>
                 (parameters.pageIndex,parameters.PageSize,totalProducts,data));
