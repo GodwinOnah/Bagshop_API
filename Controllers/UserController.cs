@@ -31,7 +31,7 @@ namespace API.Controllers
         }
 
         // Use to get a new user
-        // [Authorize]
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<UserDTO>> GetCurrentUser(){  
             var user = await _userManager.FindByEmailByClaimPrinciple(User);
@@ -41,14 +41,14 @@ namespace API.Controllers
                 Token =  _tokenService.createToken(user)
             };}
 
-        // [Authorize]
+        [Authorize]
         [HttpGet("address")]
         public async Task<ActionResult<AddressDTO>> GetAddress(){
             var user = await _userManager.FindUserByClaimsPrincipleWithAddress(User);
             return _mapper.Map<Address,AddressDTO>(user.address);
             }
 
-        // [Authorize]
+      
         [HttpPut("address")]
         public async Task<ActionResult<AddressDTO>> UpdateAddress(AddressDTO addressDTO){
             var user = await _userManager.FindUserByClaimsPrincipleWithAddress(User);
@@ -65,8 +65,7 @@ namespace API.Controllers
             return await _userManager.FindByEmailAsync(email)!=null;
         }
 
-        // Use for login
-        // [Authorize]
+    
          [HttpPost("login")]
         public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDTO){                  
             var user = await _userManager.FindByEmailAsync(loginDTO.email);

@@ -36,7 +36,6 @@ namespace API.Controllers
 [HttpPost]
          public async Task<ActionResult<Order>> CreateOrder(OrderDTO orderDTO){
             var email = User.getEmailfromPrincipleClaims();
-            Console.WriteLine("\n\n\n\n\n\n\n"+email+"\n\n\n\n\n\n\n");
             var address = _mapper.Map<AddressDTO, ShippingAddress>(orderDTO.shippingAddress);
             var order = await _iOrders.CreateOrdersAsync(email, orderDTO.basketId,
             orderDTO.deliveryId,address); 
