@@ -44,17 +44,22 @@ namespace API.Controllers
                             _imapper = imapper;
                             }
 
-        // [HttpPost("upload")] //No curly braces
-        // public async Task<ActionResult<IReadOnlyList<Products>>> UploadProducts(ProductDetails productsDetails)
-        // {
-        //     var productDetails = new ProductDetails{
-        //         prodName = productsDetails.prodName,
-        //         prodPicture = productsDetails.prodPicture,
-        //         prodDescription = productsDetails.prodDescription,
-        //         prodPrice = productsDetails.prodPrice,
-        //         productBrand = productsDetails.productBrand,
-        //         productType = productsDetails.productType
-        //     };
+        [HttpPost] //No curly braces
+        public async Task<string> UploadProducts(ProductDetails productsDetails)
+        {
+
+            // Console.WriteLine("\n\n\\n\n\n\n\n"+productsDetails.prodName+"\n\n\n\n");
+            var productDetails = new Products{
+               
+                prodName = productsDetails.prodName,
+                prodPicture = productsDetails.prodPicture,
+                prodDescription = productsDetails.prodDescription,
+                prodPrice = productsDetails.prodPrice,
+                productBrand = new ProductBrand {Name = productsDetails.productBrand},
+                productType =  new ProductType {Name = productsDetails.productType}
+            };
+
+            // Console.WriteLine("\n\n\\n\n\n\n\n"+productsDetails.prodPrice+"\n\n\n\n");
 
         //     //  var productDetails =   _productDetails.UploadProductAsync(
         //     //     productsDetails.prodName,
@@ -67,14 +72,18 @@ namespace API.Controllers
 
            
                
-        //     return await  _imapper.Map<ProductDetails,Products>(productDetails);
-        //     //  if(!_context.Products.Any()){             
+            // return await  _imapper.Map<ProductDetails,Products>(productDetails);
+                        
                  
-                             
-        //     //             _context.Products.AddRange(productsDetails.prodName);
-        //     //         }
-        //     //         await _context.SaveChangesAsync();
-        // }          
+                            //   Console.WriteLine("\n\n\\n\n\n\n\n"+_imapper.Map<ProductDetails,Products>(productDetails)+334455+"\n\n\n\n");
+                        _context.Products.Add(productDetails);
+                        
+                   await  _context.SaveChangesAsync();
+
+                return "Uploaded succecssfully";
+                    
+                   
+        }          
 
         
         // [Cashing(600)]

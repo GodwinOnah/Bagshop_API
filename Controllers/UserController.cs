@@ -54,7 +54,7 @@ namespace API.Controllers
             var user = await _userManager.FindUserByClaimsPrincipleWithAddress(User);
             user.address = _mapper.Map<AddressDTO,Address>(addressDTO);
             var result = await _userManager.UpdateAsync(user);
-            if(!result.Succeeded) 
+            if(result.Succeeded) 
             return Ok(_mapper.Map< Address,AddressDTO>(user.address));
             return BadRequest("Could not update user");
             }
