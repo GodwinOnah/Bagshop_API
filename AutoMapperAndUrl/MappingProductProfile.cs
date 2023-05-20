@@ -37,14 +37,13 @@ namespace API.AutoMapper
                .ForMember(d=>d.prodPicture,o=>o.MapFrom(s=>s.itemOrdered.prodPicture))
                .ForMember(x=>x.prodPicture,y=>y.MapFrom<OrderPictureUrlResolver>());
 
-               CreateMap<ProductDetails, Products>()
-             
-               .ForMember(d=>d.prodName,o=>o.MapFrom(s=>s.prodName))
-                .ForMember(x=>x.prodPicture,y=>y.MapFrom<ProductDetailsPicture>())
-                .ForMember(d=>d.prodDescription,o=>o.MapFrom(s=>s.prodDescription))
-                 .ForMember(d=>d.prodPrice,o=>o.MapFrom(s=>s.prodPrice))
-                  .ForMember(d=>d.productBrand,o=>o.MapFrom(s=>s.productBrand))
-                   .ForMember(d=>d.productType,o=>o.MapFrom(s=>s.productType));
+            //    CreateMap<ProductDetails, Products>()
+            //    .ForMember(d=>d.prodName,o=>o.MapFrom(s=>s.prodName))
+            //     .ForMember(d=>d.prodPicture,o=>o.MapFrom(s=>s.prodPicture))
+            //     .ForMember(d=>d.prodDescription,o=>o.MapFrom(s=>s.prodDescription))
+            //      .ForMember(d=>d.prodPrice,o=>o.MapFrom(s=>s.prodPrice))
+            //       .ForMember(d=>d.productBrand.Name,o=>o.MapFrom(s=>s.productBrand))
+            //        .ForMember(d=>d.productType.Name,o=>o.MapFrom(s=>s.productType));
                
          }
     }

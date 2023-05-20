@@ -24,7 +24,7 @@ namespace API.Controllers
 
          private readonly IgenericInterfaceRepository<ProductType> _productTypes;
           private readonly productContext  _context;
-        //  private readonly IProductDetails _productDetails;
+         private readonly IProductDetails _productDetails;
 
          private readonly IMapper _imapper;
         
@@ -33,13 +33,13 @@ namespace API.Controllers
             IgenericInterfaceRepository<ProductBrand> productBrands,
             IgenericInterfaceRepository<ProductType> productTypes,
             productContext context,
-            // IProductDetails productDetails,
+            IProductDetails productDetails,
             IMapper imapper)
                             {
                                 _productTypes = productTypes;
                                 _productBrands = productBrands;
                                 _products = products;
-                                // _productDetails = productDetails;
+                                _productDetails = productDetails;
                                 _context=context;
                             _imapper = imapper;
                             }
@@ -48,37 +48,39 @@ namespace API.Controllers
         public async Task<string> UploadProducts(ProductDetails productsDetails)
         {
 
-            // Console.WriteLine("\n\n\\n\n\n\n\n"+productsDetails.prodName+"\n\n\n\n");
-            var productDetails = new Products{
+             Console.WriteLine("\n\n\\n\n\n\n\n"+223344+"\n\n\n\n");
+
+            Console.WriteLine("\n\n\\n\n\n\n\n"+productsDetails+"\n\n\n\n");
+            // var productDetails = new ProductDetails {
                
-                prodName = productsDetails.prodName,
-                prodPicture = productsDetails.prodPicture,
-                prodDescription = productsDetails.prodDescription,
-                prodPrice = productsDetails.prodPrice,
-                productBrand = new ProductBrand {Name = productsDetails.productBrand},
-                productType =  new ProductType {Name = productsDetails.productType}
-            };
+            //     prodName = productsDetails.prodName,
+            //     prodPicture = productsDetails.prodPicture,
+            //     prodDescription = productsDetails.prodDescription,
+            //     prodPrice = productsDetails.prodPrice,
+            //     productBrand = productsDetails.productBrand,
+            //     productType = productsDetails.productType
+            // };
 
             // Console.WriteLine("\n\n\\n\n\n\n\n"+productsDetails.prodPrice+"\n\n\n\n");
 
-        //     //  var productDetails =   _productDetails.UploadProductAsync(
-        //     //     productsDetails.prodName,
-        //     //    productsDetails.prodPicture,
-        //     //    productsDetails.prodDescription,
-        //     //     productsDetails.prodPrice,
-        //     //     productsDetails.productBrand,
-        //     //     productsDetails.productType
-        //     // );
+           await  _productDetails.UploadProductAsync(
+                productsDetails.prodName,
+               productsDetails.prodPicture,
+               productsDetails.prodDescription,
+                productsDetails.prodPrice,
+                productsDetails.productBrand,
+                productsDetails.productType
+            );
 
            
                
-            // return await  _imapper.Map<ProductDetails,Products>(productDetails);
+            // var product = _imapper.Map<ProductDetails,Products>(productDetails);
                         
                  
                             //   Console.WriteLine("\n\n\\n\n\n\n\n"+_imapper.Map<ProductDetails,Products>(productDetails)+334455+"\n\n\n\n");
-                        _context.Products.Add(productDetails);
+                //         _context.Products.Add( product);
                         
-                   await  _context.SaveChangesAsync();
+                //    await  _context.SaveChangesAsync();
 
                 return "Uploaded succecssfully";
                     

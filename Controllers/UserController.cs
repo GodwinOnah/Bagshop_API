@@ -72,6 +72,7 @@ namespace API.Controllers
 
             if(user == null) 
             return Unauthorized(new Responses(401));
+
             var result = await  _signInManager.CheckPasswordSignInAsync(user,loginDTO.password,false);
             
             if(!result.Succeeded) return Unauthorized(new Responses(401));
@@ -124,11 +125,15 @@ namespace API.Controllers
                                     zipcode=registerDTO.zipcode,
                                     phone=registerDTO.phone
                         }};
-                
-            var result = await _userManager.CreateAsync(user, registerDTO.password);       
+            if(registerDTO.password1 == registerDTO.password2){
+            var result = await _userManager.CreateAsync(user, registerDTO.password1);
+
             if(!result.Succeeded) return Unauthorized(new Responses(401));
             return new UserDTO {
                 NickName = user.NickName,
                 Email = user.Email,
                 Token = _tokenService.createToken(user)    
-            };}}}
+            };}
+            else{
+                 return Unauthorized(new Responses(401));
+            }}}}
