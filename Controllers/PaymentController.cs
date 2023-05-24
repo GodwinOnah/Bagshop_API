@@ -31,7 +31,7 @@ namespace API.Controllers
 
             var json = await new StreamReader(Request.Body).ReadToEndAsync();
             var stripeEvent = EventUtility.ConstructEvent(
-            json,Request.Headers["Stripe-Signature"],whSecrete);
+                    json,Request.Headers["Stripe-Signature"],whSecrete);
 
             PaymentIntent intent;
             Order order;

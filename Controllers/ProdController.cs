@@ -45,49 +45,18 @@ namespace API.Controllers
                             }
 
         [HttpPost] //No curly braces
-        public async Task<string> UploadProducts(ProductDetails productsDetails)
+        public async Task<ActionResult> UploadProducts([FromBody] ProductDetails productsDetails)
         {
-
-             Console.WriteLine("\n\n\\n\n\n\n\n"+223344+"\n\n\n\n");
-
-            Console.WriteLine("\n\n\\n\n\n\n\n"+productsDetails+"\n\n\n\n");
-            // var productDetails = new ProductDetails {
-               
-            //     prodName = productsDetails.prodName,
-            //     prodPicture = productsDetails.prodPicture,
-            //     prodDescription = productsDetails.prodDescription,
-            //     prodPrice = productsDetails.prodPrice,
-            //     productBrand = productsDetails.productBrand,
-            //     productType = productsDetails.productType
-            // };
-
-            // Console.WriteLine("\n\n\\n\n\n\n\n"+productsDetails.prodPrice+"\n\n\n\n");
-
-           await  _productDetails.UploadProductAsync(
-                productsDetails.prodName,
-               productsDetails.prodPicture,
-               productsDetails.prodDescription,
-                productsDetails.prodPrice,
-                productsDetails.productBrand,
-                productsDetails.productType
-            );
-
-           
-               
-            // var product = _imapper.Map<ProductDetails,Products>(productDetails);
-                        
-                 
-                            //   Console.WriteLine("\n\n\\n\n\n\n\n"+_imapper.Map<ProductDetails,Products>(productDetails)+334455+"\n\n\n\n");
-                //         _context.Products.Add( product);
-                        
-                //    await  _context.SaveChangesAsync();
-
-                return "Uploaded succecssfully";
-                    
-                   
+               await _productDetails.UploadProductAsync(productsDetails);
+                return Ok();             
         }          
-
-        
+    
+[HttpDelete("{id}")] //No curly braces
+        public async Task<bool> DeleteProducts(int id)
+        {
+               await _productDetails.DeleteProductAsync(id);
+                return true;             
+        }  
         // [Cashing(600)]
         [HttpGet]
         public async Task<ActionResult<ProductsPagination<ProductsShapedObject>>> GetProducts(

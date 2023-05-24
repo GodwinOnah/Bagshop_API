@@ -17,28 +17,35 @@ namespace API.Controllers
     {
 
       
-        private readonly IOrders _iOrders;
+        private readonly IAdminOrder _iAdminOrders;
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
-        public AdminController(IOrders iOrders, IMapper mapper, UserManager<User> userManager)
+        public AdminController(IAdminOrder iAdminOrders, IMapper mapper)
         {
-            _userManager = userManager;
             _mapper = mapper;
-            _iOrders = iOrders;
+            _iAdminOrders = iAdminOrders;
         }
         
         [HttpGet]
-         public async Task<ActionResult<IReadOnlyList<OrderDTOFinal>>> GetPaidOrderForUser(){
+         public async Task<ActionResult<IReadOnlyList<OrderDTOFinal>>> GetAdinOrderForUser(){
 
-            var orders = await  _iOrders.GetPaidOrdersAsync(OrederStatus.Pending);   
+            var orders = await  _iAdminOrders.GetAdminOrderhsAsync(OrderStatus.PaymentReceived);   
             return Ok(_mapper.Map<IReadOnlyList<OrderDTOFinal>>(orders));
     }
          [HttpGet("{id}")]
-         public async Task<ActionResult<OrderDTOFinal>> GetPaidOrderForUser(int id){
+         public async Task<ActionResult<OrderDTOFinal>> GetAdminOrderForUser(int id){
            
-            var order = await  _iOrders.GetPaidOrdersByIdAsync(id);
+            var order = await  _iAdminOrders.GetAdminOrdersByIdAsync(id);
             if( order == null ) return NotFound(new Responses(400));
             return _mapper.Map<OrderDTOFinal>(order);
     }
+
+         [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteAdminOrder([FromRoute]int id)
+        {
+          await  _iAdminOrders.DeletAdminOrder(id);
+          return Ok();
+            
+        }
     }
 }
