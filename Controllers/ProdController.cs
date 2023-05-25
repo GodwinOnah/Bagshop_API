@@ -17,7 +17,7 @@ namespace API.Controllers
 {
 
    
-    public class ProductsController: ApiControllerBase
+    public class ProdController: ApiControllerBase
     {
         private readonly IgenericInterfaceRepository<Products> _products;
         private readonly IgenericInterfaceRepository<ProductBrand> _productBrands;
@@ -28,7 +28,7 @@ namespace API.Controllers
 
          private readonly IMapper _imapper;
         
-        public ProductsController(
+        public ProdController(
             IgenericInterfaceRepository<Products> products,
             IgenericInterfaceRepository<ProductBrand> productBrands,
             IgenericInterfaceRepository<ProductType> productTypes,
@@ -51,7 +51,7 @@ namespace API.Controllers
                 return Ok();             
         }          
     
-[HttpDelete("{id}")] //No curly braces
+        [HttpDelete("{id}")] 
         public async Task<bool> DeleteProducts(int id)
         {
                await _productDetails.DeleteProductAsync(id);

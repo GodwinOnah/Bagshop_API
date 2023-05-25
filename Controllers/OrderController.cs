@@ -37,10 +37,10 @@ namespace API.Controllers
          public async Task<ActionResult<Order>> CreateOrder(OrderDTO orderDTO){
             var email = User.getEmailfromPrincipleClaims();
             var address = _mapper.Map<AddressDTO, ShippingAddress>(orderDTO.shippingAddress);
-        
-            // Console.WriteLine("\n\n\n\n\n\n\n\n"+address.street+"\n\n\n\n\n\n\n\n");
+      //   Console.WriteLine("\n\n\n\n\n\n\n\n"+address.street+"\n\n\n\n\n\n\n\n");
             var order = await _iOrders.CreateOrdersAsync(email, orderDTO.basketId,
             orderDTO.deliveryId,address); 
+            Console.WriteLine("\n\n\n\n\n\n\n\n"+order.orderStatus+"\n\n\n\n\n\n\n\n");
             return Ok(order);
          }
 
@@ -49,7 +49,8 @@ namespace API.Controllers
          public async Task<ActionResult<IReadOnlyList<OrderDTOFinal>>> GetOrderForUser(){
 
             var email = HttpContext.User.getEmailfromPrincipleClaims();
-            var orders = await  _iOrders.GetOrdersAsync(email);   
+            var orders = await  _iOrders.GetOrdersAsync(email);  
+
             return Ok(_mapper.Map<IReadOnlyList<OrderDTOFinal>>(orders));
     }
 
