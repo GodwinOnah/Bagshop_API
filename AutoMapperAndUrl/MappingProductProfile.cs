@@ -31,10 +31,14 @@ namespace API.AutoMapper
               .ForMember(d=>d.delivery,o=>o.MapFrom(s=>s.delivery.delName))
               .ForMember(d=>d.delivery,o=>o.MapFrom(s=>s.delivery.delPrice));
 
+              CreateMap<AdminOrder, AdminOrderDTO>()
+              .ForMember(d=>d.shippingAddress,o=>o.MapFrom(s=>s.address))
+              .ForMember(d=>d.orderStatus,o=>o.MapFrom(s=>s.orderStatus));
+
                CreateMap<ItemOrdered, ItemOrderedDTO>()
-               .ForMember(d=>d.id,o=>o.MapFrom(s=>s.itemOrdered.id))
-               .ForMember(d=>d.prodName,o=>o.MapFrom(s=>s.itemOrdered.prodName))
-               .ForMember(d=>d.prodPicture,o=>o.MapFrom(s=>s.itemOrdered.prodPicture))
+               .ForMember(d=>d.id,o=>o.MapFrom(s=>s.productOrdered.id))
+               .ForMember(d=>d.prodName,o=>o.MapFrom(s=>s.productOrdered.prodName))
+               .ForMember(d=>d.prodPicture,o=>o.MapFrom(s=>s.productOrdered.prodPicture))
                .ForMember(x=>x.prodPicture,y=>y.MapFrom<OrderPictureUrlResolver>());
 
             //    CreateMap<ProductDetails, Products>()

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using API.DTOs;
 using API.ErrorsHandlers;
 using AutoMapper;
+using core.Entities.DTOs;
 using core.Entities.Identity;
 using core.Entities.Oders;
 using core.Interfaces;
@@ -27,25 +28,25 @@ namespace API.Controllers
         }
         
         [HttpGet]
-         public async Task<ActionResult<IReadOnlyList<OrderDTOFinal>>> GetAdinOrderForUser(){
+         public async Task<ActionResult<IReadOnlyList<AdminOrderDTO>>> GetAdinOrderForUser(){
 
-            var orders = await  _iAdminOrders.GetAdminOrderhsAsync(OrderStatus.PaymentReceived);   
-            return Ok(_mapper.Map<IReadOnlyList<OrderDTOFinal>>(orders));
+            var adminOrders = await  _iAdminOrders.GetAdminOrderhsAsync(OrderStatus.PaymentReceived);   
+            return Ok(_mapper.Map<IReadOnlyList<AdminOrderDTO>>(adminOrders));
     }
          [HttpGet("{id}")]
-         public async Task<ActionResult<OrderDTOFinal>> GetAdminOrderForUser(int id){
+         public async Task<ActionResult<AdminOrderDTO>> GetAdminOrderForUser(int id){
            
-            var order = await  _iAdminOrders.GetAdminOrdersByIdAsync(id);
-            if( order == null ) return NotFound(new Responses(400));
-            return _mapper.Map<OrderDTOFinal>(order);
+            var adminOrders = await  _iAdminOrders.GetAdminOrdersByIdAsync(id);
+            if( adminOrders == null ) return NotFound(new Responses(400));
+            return _mapper.Map<AdminOrderDTO>(adminOrders);
     }
 
          [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteAdminOrder([FromRoute]int id)
+        public async Task<bool> DeleteAdminOrder(int id)
         {
-          await  _iAdminOrders.DeletAdminOrder(id);
-          return Ok();
-            
+          await _iAdminOrders.DeletAdminOrder(id);
+          
+            return true;
         }
     }
 }

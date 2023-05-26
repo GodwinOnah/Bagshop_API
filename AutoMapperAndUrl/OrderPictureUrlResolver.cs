@@ -19,10 +19,10 @@ namespace API.AutoMapperAndUrl
 
         public string Resolve(ItemOrdered source, ItemOrderedDTO destination, string destMember, ResolutionContext context)
         {
-            if(!string.IsNullOrEmpty(source.itemOrdered.prodPicture))
+            if(!string.IsNullOrEmpty(source.productOrdered.prodPicture))
             {
 
-                return _configuration["ApiUrl"]+source.itemOrdered.prodPicture;
+                return _configuration["ApiUrl"]+source.productOrdered.prodPicture;
             }
 
             return null;

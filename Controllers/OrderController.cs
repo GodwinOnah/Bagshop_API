@@ -40,7 +40,7 @@ namespace API.Controllers
       //   Console.WriteLine("\n\n\n\n\n\n\n\n"+address.street+"\n\n\n\n\n\n\n\n");
             var order = await _iOrders.CreateOrdersAsync(email, orderDTO.basketId,
             orderDTO.deliveryId,address); 
-            Console.WriteLine("\n\n\n\n\n\n\n\n"+order.orderStatus+"\n\n\n\n\n\n\n\n");
+            // Console.WriteLine("\n\n\n\n\n\n\n\n"+order.orderStatus+"\n\n\n\n\n\n\n\n");
             return Ok(order);
          }
 

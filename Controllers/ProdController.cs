@@ -44,8 +44,8 @@ namespace API.Controllers
                             _imapper = imapper;
                             }
 
-        [HttpPost] //No curly braces
-        public async Task<ActionResult> UploadProducts([FromBody] ProductDetails productsDetails)
+        [HttpPost] 
+        public async Task<ActionResult> UploadProducts(ProductDetails productsDetails)
         {
                await _productDetails.UploadProductAsync(productsDetails);
                 return Ok();             

@@ -12,35 +12,51 @@ namespace API.Controllers
 {
     public class PaymentController : ApiControllerBase
     {
-        private const string whSecrete = "whsec_767de115f2622dc7546b2a8e5a7e3c055ad30311d321420d873617d817ec1981";
+        private readonly  string _whSecret;
         private readonly IPaymentService _payment;
         private readonly ILogger<PaymentController> _illoger;
-        public PaymentController(IPaymentService payment, ILogger<PaymentController> illoger)
+        public PaymentController(
+            IPaymentService payment,
+         ILogger<PaymentController> illoger,
+          IConfiguration config)
         {
             _illoger = illoger;
             _payment = payment;
+            _whSecret = config.GetSection("StripeSettings:WhSecret").Value;
         }
 
         [HttpPost("{basketId}")]
          public async Task<ActionResult<Basket>> CreateOrUpdatePaymentIntent(string basketId){
+            // Console.WriteLine("\n\n\n\n\n\n\n\n"+_whSecret+"\n\n\n\n\n\n\n\n");
             return await   _payment.CreateOrUpdateIntent(basketId);
          }
 
          [HttpPost("webhook")]
          public async Task<ActionResult> StripeWebhook(){
 
+            // Console.WriteLine("\n\n\n\n\n\n\n\n"+225544+"\n\n\n\n\n\n\n\n");
+
             var json = await new StreamReader(Request.Body).ReadToEndAsync();
+            // Console.WriteLine("\n\n\n\n\n\n\n\n"+5544+"\n\n\n\n\n\n\n\n");
+            // Console.WriteLine("\n\n\n\n\n\n\n\n"+Request.Headers["Stripe-Signature"]+"\n\n\n\n\n\n\n\n");
+            // Console.WriteLine("\n\n\n\n\n\n\n\n"+json+"\n\n\n\n\n\n\n\n");
             var stripeEvent = EventUtility.ConstructEvent(
-                    json,Request.Headers["Stripe-Signature"],whSecrete);
+                    json,Request.Headers["Stripe-Signature"],_whSecret);
+
+                    // Console.WriteLine("\n\n\n\n\n\n\n\n"+stripeEvent.Type+"\n\n\n\n\n\n\n\n");
 
             PaymentIntent intent;
             Order order;
 
             switch(stripeEvent.Type){
+
                 case "payment_intent.succeeded":
+                //  Console.WriteLine("\n\n\n\n\n\n\n\n"+223344+"\n\n\n\n\n\n\n\n");
                     intent = (PaymentIntent)stripeEvent.Data.Object;
+                    // Console.WriteLine("\n\n\n\n\n\n\n\n"+intent.Id+"\n\n\n\n\n\n\n\n");
                     _illoger.LogInformation("Payment Succeeded: ",intent.Id);
                     order = await  _payment.UpdateOrderPaymentSucceeded(intent.Id);
+                     Console.WriteLine("\n\n\n\n\n\n\n\n"+order+"\n\n\n\n\n\n\n\n");
                      _illoger.LogInformation("Payment updated to payment received: ",order.id);
                     break;
                 case "payment_intent.payment_failed":
