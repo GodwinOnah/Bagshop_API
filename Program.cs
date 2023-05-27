@@ -55,6 +55,8 @@ builder.Services.AddScoped<IBasket,BasketRepo>();
 builder.Services.AddScoped<IProductDetails,ProductServices>();
 builder.Services.AddScoped<IPaymentService,PaymentServices>();
 builder.Services.AddScoped<IAdminOrder,AdminOrderService>();
+builder.Services.AddScoped<IProductBrand,ProductBrandService>();
+builder.Services.AddScoped<IProductType,ProductTypeService>();
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 builder.Services.AddScoped<IOrders,OrderServices>();
  builder.Services.AddScoped(typeof(IgenericInterfaceRepository<>),(typeof(ProductGeneric<>)));
