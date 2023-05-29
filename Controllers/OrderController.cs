@@ -33,7 +33,7 @@ namespace API.Controllers
             _iOrders = iOrders;
         }
 
-[HttpPost]
+    [HttpPost]
          public async Task<ActionResult<Order>> CreateOrder(OrderDTO orderDTO){
             var email = User.getEmailfromPrincipleClaims();
             var address = _mapper.Map<AddressDTO, ShippingAddress>(orderDTO.shippingAddress);
@@ -43,6 +43,13 @@ namespace API.Controllers
             // Console.WriteLine("\n\n\n\n\n\n\n\n"+order.orderStatus+"\n\n\n\n\n\n\n\n");
             return Ok(order);
          }
+
+    [HttpPut]
+        public async Task<ActionResult<OrderDTOFinal>> UpdateOrder(OrderConfirmDetails details){
+               var order = await  _iOrders.UpdateOrdersByIdAsync(details);
+               
+               return Ok(order);
+        }
 
     // [Cashing(600)]
     [HttpGet]

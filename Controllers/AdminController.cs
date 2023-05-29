@@ -33,6 +33,13 @@ namespace API.Controllers
             var adminOrders = await  _iAdminOrders.GetAdminOrderhsAsync(OrderStatus.PaymentReceived);   
             return Ok(_mapper.Map<IReadOnlyList<AdminOrderDTO>>(adminOrders));
     }
+
+        [HttpPut]
+        public async Task<ActionResult<OrderDTOFinal>> UpdateAdminOrder(OrderConfirmDetails details){
+               var order = await  _iAdminOrders.UpdateAdminOrdersByIdAsync(details);            
+               return Ok(order);
+        }
+
          [HttpGet("{id}")]
          public async Task<ActionResult<AdminOrderDTO>> GetAdminOrderForUser(int id){
            
