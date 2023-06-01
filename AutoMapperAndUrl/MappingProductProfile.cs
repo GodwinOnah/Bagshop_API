@@ -7,6 +7,7 @@ using API.DTOs;
 using AutoMapper;
 using core;
 using core.Controllers;
+using core.Entities.Adverts;
 using core.Entities.DTOs;
 using core.Entities.Identity;
 using core.Entities.Oders;
@@ -26,6 +27,7 @@ namespace API.AutoMapper
             CreateMap<BasketDTO, Basket>();
             CreateMap<BasketItemsDTO, BasketItems>();
              CreateMap<AddressDTO,ShippingAddress>();
+             CreateMap<Adverts,AdvertsDTO>().ReverseMap();
 
               CreateMap<Order, OrderDTOFinal>()
               .ForMember(d=>d.delivery,o=>o.MapFrom(s=>s.delivery.delName))

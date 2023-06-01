@@ -58,6 +58,7 @@ builder.Services.AddScoped<IAdminOrder,AdminOrderService>();
 builder.Services.AddScoped<IProductBrand,ProductBrandService>();
 builder.Services.AddScoped<IProductType,ProductTypeService>();
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
+builder.Services.AddScoped<IAdvert,AdvertService>();
 builder.Services.AddScoped<IOrders,OrderServices>();
  builder.Services.AddScoped(typeof(IgenericInterfaceRepository<>),(typeof(ProductGeneric<>)));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

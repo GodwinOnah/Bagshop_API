@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.ErrorsHandlers;
@@ -27,6 +28,7 @@ namespace API.Controllers
          private readonly IProductDetails _productDetails;
 
          private readonly IMapper _imapper;
+          private readonly IWebHostEnvironment  _webhost;
         
         public ProdController(
             IgenericInterfaceRepository<Products> products,
@@ -34,7 +36,8 @@ namespace API.Controllers
             IgenericInterfaceRepository<ProductType> productTypes,
             productContext context,
             IProductDetails productDetails,
-            IMapper imapper)
+            IMapper imapper,
+            IWebHostEnvironment webhost)
                             {
                                 _productTypes = productTypes;
                                 _productBrands = productBrands;
@@ -42,14 +45,48 @@ namespace API.Controllers
                                 _productDetails = productDetails;
                                 _context=context;
                             _imapper = imapper;
+                            _webhost = webhost;
                             }
 
         [HttpPost] 
-        public async Task<ActionResult> UploadProducts(ProductDetails productsDetails)
-        {
-               await _productDetails.UploadProductAsync(productsDetails);
+        public async Task<ActionResult> UploadProductsUrlToDb(ProductDetails productsDetails)
+        {                   
+            var productDetailsFormated = new ProductDetails(){
+                    prodName = productsDetails.prodName,
+                    prodPicture = "/bags/"+productsDetails.prodPicture.Substring(12),
+                    prodDescription = productsDetails.prodDescription,
+                    prodPrice = productsDetails.prodPrice,
+                    productBrandId = productsDetails.productBrandId,
+                    productTypeId = productsDetails.productTypeId
+            };
+               await _productDetails.UploadProductAsync(productDetailsFormated);
                 return Ok();             
-        }          
+        }   
+
+         [HttpPost("savePicture")] 
+        public async Task<ActionResult> SaveProductsPicture()
+        {     
+            var file = Request.Form.Files[0];
+             var folder = Path.Combine("files","bags");
+             var pathToSave = Path.Combine(Directory.GetCurrentDirectory(),folder);
+
+             if(file.Length>0){
+                var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                var fullpath = Path.Combine(pathToSave,fileName);
+                var dbPath = Path.Combine(folder,fileName);
+
+                using (var stream = new FileStream(fullpath, FileMode.Create)){
+                         await   file.CopyToAsync(stream);
+                }
+
+                return Ok(new {dbPath});
+                
+             }
+
+            return BadRequest();
+
+
+          }
     
         [HttpDelete("{id}")] 
         public async Task<bool> DeleteProducts(int id)

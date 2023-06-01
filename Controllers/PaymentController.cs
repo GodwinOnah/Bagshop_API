@@ -42,9 +42,6 @@ namespace API.Controllers
             // Console.WriteLine("\n\n\n\n\n\n\n\n"+json+"\n\n\n\n\n\n\n\n");
             var stripeEvent = EventUtility.ConstructEvent(
                     json,Request.Headers["Stripe-Signature"],_whSecret);
-
-                    // Console.WriteLine("\n\n\n\n\n\n\n\n"+stripeEvent.Type+"\n\n\n\n\n\n\n\n");
-
             PaymentIntent intent;
             Order order;
 
