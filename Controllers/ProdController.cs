@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.ErrorsHandlers;
+using API.Helper;
 using AutoMapper;
 using core.Controllers;
 using core.Entities.DTOs;

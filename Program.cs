@@ -47,7 +47,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(c => {
                 .Parse(builder.Configuration.GetConnectionString("Redis"),true);
                 return ConnectionMultiplexer.Connect(configuration);
                 });
-
+builder.Services.AddSingleton<ICashing,CashingService>();
 builder.Services.AddIdentityService(builder.Configuration);
 builder.Services.AddSwaggerDocumentation();
 builder.Services.AddScoped<ITokenService,TokenServices>();

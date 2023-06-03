@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using core.Entities.Adverts;
@@ -43,19 +44,11 @@ namespace API.Controllers
             await  _adverts.DeleteAverts(id); 
 
             return true;     
-        }
-
-            
-    
+        } 
 
         [HttpPost] 
         public async Task<ActionResult> UploadProductsUrlToDb(Adverts advert)
         {      
-            // var advertFormated = new Adverts{
-            //         id = advert.id,
-            //         advert = advert.advert.("                                                     "),
-            //         time = advert.time
-            // };
            await  _adverts.UploadProductsUrlToDb(advert)  ;  
             return Ok();
     }
